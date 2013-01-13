@@ -2,10 +2,6 @@ package WebService::FitBit::Response::GetUserAuthURL;
 use Moo;
 with 'WebService::FitBit::Response';
 
-has response => (
-    is => 'ro',
-    isa => sub { ref $_[0] eq 'LWP::Authen::OAuth' },
-);
 
 has user_auth_url => (
     is => 'lazy',

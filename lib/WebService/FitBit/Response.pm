@@ -1,5 +1,14 @@
 package WebService::FitBit::Response;
 use Moo::Role;
+use JSON qw( decode_json );
+use Data::Dumper;
+
+has response => (
+    is => 'ro',
+    isa => sub { ref $_[0] eq 'LWP::Authen::OAuth' },
+);
+
+has json => ( is => 'lazy' );
 
 sub get_tokens {
     my ( $self, $str, @tokens ) = @_;
@@ -15,6 +24,12 @@ sub get_tokens {
     }
 
     return map { $data{$_} || undef } @tokens;
+}
+
+sub _build_json {
+    my ( $self ) = @_;
+
+    return decode_json($self->response->content);
 }
 
 1;

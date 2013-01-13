@@ -38,7 +38,8 @@ sub call {
             msg => "WebService::FitBit::Request::$class wasn't found.",
             line    => __LINE__,
             package => __PACKAGE__,
-            args    => [ $class ]
+            args    => [ $class ],
+            from    => $_, # The Compile Error.
         );
     };
 
@@ -99,6 +100,12 @@ sub _do_call {
         $self->ua->$param( $request->$param ) if $request->can($param) && $request->$param;
     }
 
+
+    print "Debug\n";
+    for my $param (qw(oauth_consumer_secret oauth_consumer_key oauth_token oauth_token_secret)) {
+        print "$param => " . $self->ua->$param . "\n";
+    };
+
     my $http_response;
 
     if ( $request->type eq 'POST' ) {
@@ -115,7 +122,7 @@ sub _do_call {
         };
     } elsif ( $request->type eq 'GET' ) {
         $http_response = try { 
-            $self->ua->get( $request->endpoint . $request->query_params );
+            $self->ua->get( $request->endpoint );
         } catch {
             $self->_throw_exception (
                 msg         => "Making HTTP Post",
@@ -141,7 +148,8 @@ sub _create_response {
             msg => "WebService::FitBit::Response::$class wasn't found.",
             line    => __LINE__,
             package => __PACKAGE__,
-            args    => [ $class ]
+            args    => [ $class ],
+            from    => $_, # The Compile Error.
         );
     };
 
