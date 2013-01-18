@@ -12,6 +12,11 @@ $VERSION = eval $VERSION;
 has oauth_consumer_secret => ( is => 'ro' );
 has oauth_consumer_key    => ( is => 'ro' );
 
+has api_base => ( 
+    is => 'ro', 
+    default => sub { "https://api.fitbit.com" } 
+);
+
 has 'user_agent' => ( 
     is => 'ro', 
     default => sub { "WebService::FitBit/$VERSION" },
@@ -110,7 +115,7 @@ sub _do_call {
 
     if ( $request->type eq 'POST' ) {
         $http_response = try { 
-            $self->ua->post( $request->endpoint, $request->post_arguments );
+            $self->ua->post( $self->api_base . $request->endpoint, $request->post_arguments );
         } catch {
             $self->_throw_exception (
                 msg         => "Making HTTP Post",
@@ -122,7 +127,7 @@ sub _do_call {
         };
     } elsif ( $request->type eq 'GET' ) {
         $http_response = try { 
-            $self->ua->get( $request->endpoint );
+            $self->ua->get( $self->api_base . $request->endpoint, $request->query_params );
         } catch {
             $self->_throw_exception (
                 msg         => "Making HTTP Post",

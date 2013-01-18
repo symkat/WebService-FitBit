@@ -9,12 +9,9 @@ has type => (
 
 has endpoint => ( 
     is => 'ro', 
-    default => sub { "/oauth/request_token" } 
+    default => sub { "/oauth/access_token" } 
 );
 
-has oauth_consumer_key => (
-    is => 'ro',
-);
 
 sub oauth_params {
     return {};
@@ -25,17 +22,9 @@ sub post_arguments {
 
     return [
         oauth_consumer_key => $self->oauth_consumer_key, 
+        oauth_token        => $self->oauth_verifier, 
+        oauth_verifier     => $self->oauth_verifier, 
     ];
-}
-
-sub as_exception {
-    my ( $self ) = @_;
-
-    return {
-        type => $self->type,
-        endpoint => $self->endpoint,
-        oauth_consumer_key => $self->oauth_consumer_key,
-    };
 }
 
 1;

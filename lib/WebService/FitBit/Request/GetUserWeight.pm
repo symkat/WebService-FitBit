@@ -1,11 +1,7 @@
 package WebService::FitBit::Request::GetUserWeight;
 use Moo;
 use DateTime;
-
-
-has oauth_consumer_key  => ( is => 'ro' );
-has oauth_token         => ( is => 'ro' );
-has oauth_token_secret  => ( is => 'ro' );
+with 'WebService::FitBit::Request';
 
 has type => ( 
     is => 'ro', 
@@ -53,7 +49,7 @@ sub _build_endpoint {
 
     if ( $self->base_date && $self->end_date ) {
         return sprintf( 
-            "https://api.fitbit.com/1/user/-/body/log/weight/date/%s/%s.%s",
+            "/1/user/-/body/log/weight/date/%s/%s.%s",
             $self->base_date->ymd,
             $self->end_date->ymd,
             $self->format,
@@ -62,7 +58,7 @@ sub _build_endpoint {
 
     if ( $self->base_date && $self->period ) {
         return sprintf( 
-            "https://api.fitbit.com/1/user/-/body/log/weight/date/%s/%s.%s",
+            "/1/user/-/body/log/weight/date/%s/%s.%s",
             $self->base_date->ymd,
             $self->period,
             $self->format,
@@ -70,7 +66,7 @@ sub _build_endpoint {
     }
 
     return sprintf( 
-        "https://api.fitbit.com/1/user/-/body/log/weight/date/%s.%s",
+        "/1/user/-/body/log/weight/date/%s.%s",
         $self->date->ymd,
         $self->format,
     );
