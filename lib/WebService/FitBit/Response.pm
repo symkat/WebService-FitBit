@@ -10,6 +10,30 @@ has response => (
 
 has json => ( is => 'lazy' );
 
+has body_args => ( is => 'lazy' );
+
+sub _build_body_args {
+    my ( $self ) = @_;
+    my %data;
+
+    my $str = $self->response->content;
+    return {} unless $str;
+    pos($str) = 0;
+
+    while ( pos($str)  != length($str) ) {
+        if ( $str =~ /\G([^=]+)=([^&]+)&?/gc ) {
+            $data{$1} = $2;
+        } else {
+            return {}; # Unable to handle this type of data.
+        }
+    }
+
+    return \%data;
+
+
+}
+
+# This should be phased out in favor of body_args
 sub get_tokens {
     my ( $self, $str, @tokens ) = @_;
     my %data;
