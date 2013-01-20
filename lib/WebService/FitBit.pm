@@ -174,7 +174,7 @@ sub _build_ua {
     return LWP::Authen::OAuth->new(
         oauth_consumer_secret => $self->oauth_consumer_secret,
         timeout               => $self->http_timeout,
-        user_agent            => $self->user_agent,
+        agent                   => $self->user_agent,
     );
 }
 
