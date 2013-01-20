@@ -105,12 +105,6 @@ sub _do_call {
         $self->ua->$param( $request->$param ) if $request->can($param) && $request->$param;
     }
 
-
-    print "Debug\n";
-    for my $param (qw(oauth_consumer_secret oauth_consumer_key oauth_token oauth_token_secret)) {
-        print "$param => " . $self->ua->$param . "\n";
-    };
-
     my $http_response;
 
     if ( $request->type eq 'POST' ) {
