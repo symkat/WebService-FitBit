@@ -1,4 +1,4 @@
-package WebService::FitBit::Request::GetUserAuthURL;
+package WebService::FitBit::Request::GetUserAccessToken;
 use Moo;
 with 'WebService::FitBit::Request';
 
@@ -10,6 +10,10 @@ has type => (
 has endpoint => ( 
     is => 'ro', 
     default => sub { "/oauth/access_token" } 
+);
+
+has oauth_verifier => (
+    is => 'ro',
 );
 
 

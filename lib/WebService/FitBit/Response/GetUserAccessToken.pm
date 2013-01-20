@@ -1,4 +1,4 @@
-package WebService::FitBit::Response::GetUserAuthURL;
+package WebService::FitBit::Response::GetUserAccessToken;
 use Moo;
 with 'WebService::FitBit::Response';
 
