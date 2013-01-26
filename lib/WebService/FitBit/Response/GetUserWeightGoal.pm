@@ -9,7 +9,7 @@ has goal => (
 );
 
 sub _build_goal {
-    return $self->json->{goal};
+    return shift->json->{goal};
 }
 
 1;
