@@ -121,7 +121,9 @@ sub _do_call {
         };
     } elsif ( $request->type eq 'GET' ) {
         $http_response = try { 
-            $self->ua->get( $self->api_base . $request->endpoint, $request->query_params );
+            $self->ua->get( $self->api_base . $request->endpoint,    
+                ( $request->query_params || () ) 
+            );
         } catch {
             $self->_throw_exception (
                 msg         => "Making HTTP Post",
