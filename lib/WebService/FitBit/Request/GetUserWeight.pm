@@ -76,7 +76,6 @@ sub _build_endpoint {
 
 # Disregard
 
-
 sub query_params {
     return "";
 };

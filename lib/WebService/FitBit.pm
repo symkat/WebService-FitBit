@@ -28,6 +28,12 @@ has 'http_timeout' => (
     default => sub { 60 } 
 );
 
+has 'language' => (
+    is      => 'ro',
+    default => sub { "en_US" },
+    isa     => sub { $_[0] =~ /^en_(US|GB)$/ },
+);
+
 has ua => ( 
     is => 'lazy', 
     isa => sub { ref $_[0] eq 'LWP::Authen::OAuth' } 
@@ -173,11 +179,14 @@ sub _create_response {
 sub _build_ua {
     my ( $self ) = @_;
 
-    return LWP::Authen::OAuth->new(
+    my $ua = LWP::Authen::OAuth->new(
         oauth_consumer_secret => $self->oauth_consumer_secret,
         timeout               => $self->http_timeout,
-        agent                   => $self->user_agent,
+        agent                 => $self->user_agent,
     );
+    $ua->default_header( "Accept-Language", $self->language );
+    
+    return $ua;
 }
 
 1;
