@@ -106,6 +106,9 @@ sub _throw_exception {
 sub _do_call {
     my ( $self, $request ) = @_;
 
+    # This should be able to be updated between API calls.
+    $self->ua->default_header( "Accept-Language", $self->language );
+
     # Update OAuth Parameters.
     for my $param (qw(oauth_consumer_key oauth_token oauth_token_secret)) {
         $self->ua->$param( $request->$param ) if $request->can($param) && $request->$param;
@@ -184,7 +187,6 @@ sub _build_ua {
         timeout               => $self->http_timeout,
         agent                 => $self->user_agent,
     );
-    $ua->default_header( "Accept-Language", $self->language );
     
     return $ua;
 }
