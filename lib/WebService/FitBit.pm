@@ -28,12 +28,6 @@ has 'http_timeout' => (
     default => sub { 60 } 
 );
 
-has 'language' => (
-    is      => 'rw',
-    default => sub { "en_US" },
-    isa     => sub { $_[0] =~ /^en_(US|GB|KG)$/ },
-);
-
 has ua => ( 
     is => 'lazy', 
     isa => sub { ref $_[0] eq 'LWP::Authen::OAuth' } 
@@ -107,7 +101,7 @@ sub _do_call {
     my ( $self, $request ) = @_;
 
     # This should be able to be updated between API calls.
-    $self->ua->default_header( "Accept-Language", $self->language );
+    $self->ua->default_header( "Accept-Language", $request->language );
 
     # Update OAuth Parameters.
     for my $param (qw(oauth_consumer_key oauth_token oauth_token_secret)) {
