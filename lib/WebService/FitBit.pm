@@ -29,9 +29,9 @@ has 'http_timeout' => (
 );
 
 has 'language' => (
-    is      => 'ro',
+    is      => 'rw',
     default => sub { "en_US" },
-    isa     => sub { $_[0] =~ /^en_(US|GB)$/ },
+    isa     => sub { $_[0] =~ /^en_(US|GB|KG)$/ },
 );
 
 has ua => ( 
