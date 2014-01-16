@@ -23,9 +23,7 @@ sub oauth_params {
 sub post_arguments {
     my ( $self ) = @_;
 
-    return [
-        oauth_consumer_key => $self->oauth_consumer_key, 
-    ];
+    return [ ];
 }
 
 sub as_exception {
