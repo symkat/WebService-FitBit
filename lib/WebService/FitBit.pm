@@ -1,6 +1,6 @@
 package WebService::FitBit;
 use Moo;
-use LWP::Authen::OAuth;
+use LWP::Authen::OAuth::Complex;
 use Scalar::Util qw( looks_like_number );
 use Module::Load;
 use Try::Tiny;
@@ -30,7 +30,7 @@ has 'http_timeout' => (
 
 has ua => ( 
     is => 'lazy', 
-    isa => sub { ref $_[0] eq 'LWP::Authen::OAuth' } 
+    isa => sub { ref $_[0] eq 'LWP::Authen::OAuth::Complex' } 
 );
 
 sub call {
@@ -104,7 +104,8 @@ sub _do_call {
     $self->ua->default_header( "Accept-Language", $request->language );
 
     # Update OAuth Parameters.
-    for my $param (qw(oauth_consumer_key oauth_token oauth_token_secret)) {
+    for my $param (qw(oauth_verifier oauth_consumer_key oauth_token oauth_token_secret)) {
+        $self->ua->$param( "" );
         $self->ua->$param( $request->$param ) if $request->can($param) && $request->$param;
     }
 
@@ -176,7 +177,7 @@ sub _create_response {
 sub _build_ua {
     my ( $self ) = @_;
 
-    my $ua = LWP::Authen::OAuth->new(
+    my $ua = LWP::Authen::OAuth::Complex->new(
         oauth_consumer_secret => $self->oauth_consumer_secret,
         timeout               => $self->http_timeout,
         agent                 => $self->user_agent,

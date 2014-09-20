@@ -18,13 +18,21 @@ has oauth_verifier => (
 
 
 sub oauth_params {
-    return {};
+    my $self = shift;
+    return { 
+        oauth_verifier     => $self->oauth_verifier,
+        oauth_token        => $self->oauth_token,
+        oauth_token_secret => $self->oauth_token_secret,
+    };
 }
 
 sub post_arguments {
     my ( $self ) = @_;
 
-    return [ ];
+    return [ 
+#        oauth_verifier     => $self->oauth_verifier,
+#        oauth_token        => $self->oauth_token,
+    ];
 }
 
 1;
