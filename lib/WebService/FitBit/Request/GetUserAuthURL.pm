@@ -12,10 +12,6 @@ has endpoint => (
     default => sub { "/oauth/request_token" } 
 );
 
-has oauth_consumer_key => (
-    is => 'ro',
-);
-
 sub oauth_params {
     return {};
 }

@@ -12,10 +12,6 @@ has endpoint => (
     is => 'lazy', 
 );
 
-has oauth_consumer_key => (
-    is => 'ro',
-);
-
 has oauth_consumer_secret => (
     is => 'ro',
 );
